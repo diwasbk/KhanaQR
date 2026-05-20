@@ -21,8 +21,8 @@ const userSchema: Schema = new mongoose.Schema<signupType>({
     },
     role: {
         type: String,
-        enum: ["admin", "user"],
-        default: "user"
+        enum: ["cafe", "admin"],
+        default: "cafe"
     },
     termsAgreed: {
         type: Boolean,

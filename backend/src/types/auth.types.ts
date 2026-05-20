@@ -23,8 +23,8 @@ export const signupSchema = z.object({
         .string("Confirm password is required.")
         .nonempty("Confirm password is required."),
     role: z
-        .enum(["user", "admin"])
-        .default("user"),
+        .enum(["cafe", "admin"])
+        .default("cafe"),
     termsAgreed: z
         .boolean("You must agree to the rules and regulations.")
         .refine((val) => val === true, "You must agree to the rules and regulations."),
