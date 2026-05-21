@@ -47,4 +47,4 @@ export interface ICafe extends cafeType, Document {
     updatedAt: Date;
 };
 
-export const CafeModel = mongoose.model<ICafe>("Cafe", cafeSchema);
+export const CafeModel = mongoose.model<ICafe>("Cafe", cafeSchema, "cafes");

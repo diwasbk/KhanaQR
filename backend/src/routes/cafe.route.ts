@@ -1,0 +1,11 @@
+import express from "express";
+import CafeController from "../controllers/cafe.controller";
+import schemaValidateMiddleware from "../middlewares/schema.validator.middleware";
+import { cafeSchema } from "../types/cafe.types";
+
+const cafeRouter = express.Router();
+const cafeController = new CafeController();
+
+cafeRouter.post("/create/:userId", schemaValidateMiddleware(cafeSchema), cafeController.createCafeByUserId);
+
+export default cafeRouter;  

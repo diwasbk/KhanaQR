@@ -1,7 +1,8 @@
 import mongoose from "mongoose";
 import { z } from "zod";
 
-const cafeSchema = z.object({
+// Cafe Schema
+export const cafeSchema = z.object({
     userId: z
         .instanceof(mongoose.Types.ObjectId)
         .optional(),
