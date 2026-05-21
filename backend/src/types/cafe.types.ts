@@ -13,8 +13,8 @@ const cafeSchema = z.object({
         .nonempty("Description is required.")
         .min(20, "Description must be at least 20 characters."),
     logo: z
-        .string("Logo is required.")
-        .nonempty("Logo is required."),
+        .string()
+        .optional(),
     address: z
         .string("Address is required.")
         .nonempty("Address is required.")
@@ -26,7 +26,7 @@ const cafeSchema = z.object({
         .regex(/^\d+$/, "Phone number must contain only digits"),
     totalCategory: z
         .number()
-        .optional(),
+        .default(0),
     plan: z
         .enum(["starter", "growth", "premium"])
         .default("starter"),
