@@ -7,5 +7,6 @@ const cafeRouter = express.Router();
 const cafeController = new CafeController();
 
 cafeRouter.post("/create/:userId", schemaValidateMiddleware(cafeSchema), cafeController.createCafeByUserId);
+cafeRouter.get("/all/:isActive", cafeController.getAllCafeByStatus);
 
 export default cafeRouter;  
