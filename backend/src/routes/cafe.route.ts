@@ -12,5 +12,6 @@ cafeRouter.get("/:cafeId", cafeController.getCafeByCafeId);
 cafeRouter.get("/username/:username", cafeController.getCafeByUsername);
 cafeRouter.put("/update/:cafeId", schemaValidateMiddleware(cafeSchema.partial()), cafeController.updateCafeInfoByCafeId);
 cafeRouter.patch("/activate-deactivate/:cafeId/:isActive", cafeController.activateOrdeactivateCafeByCafeId);
+cafeRouter.delete("/delete/:cafeId", cafeController.deleteCafeByCafeId);
 
 export default cafeRouter;  

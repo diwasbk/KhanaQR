@@ -242,6 +242,36 @@ class CafeController {
             });
         };
     };
+    
+    // Delete Cafe By Cafe ID
+    deleteCafeByCafeId = async (req: Request, res: Response) => {
+        try {
+            const cafeId = req.params.cafeId;
+
+            const cafeExist = await CafeModel.findOne({ _id: cafeId });
+
+            if (!cafeExist) {
+                return res.status(400).send({
+                    message: "Cafe not found!",
+                    success: false
+                });
+            };
+            
+            await CafeModel.findOneAndDelete({_id: cafeId});
+
+            res.status(200).send({
+                message: "Cafe deleted successfully!",
+                success: true
+            });
+
+        } catch (err: any) {
+            console.log(err);
+            return res.status(500).send({
+                message: err.message ? `Internal server error: ${err.message}` : "Internal server error.",
+                success: false
+            });
+        };
+    };
 };
 
 export default CafeController;
