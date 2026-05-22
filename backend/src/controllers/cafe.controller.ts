@@ -127,6 +127,35 @@ class CafeController {
             });
         };
     };
+
+    // Get Cafe By Username
+    getCafeByUsername = async (req: Request, res: Response) => {
+        try {
+            const username = req.params.username;
+
+            const cafeExist = await CafeModel.findOne({ username: username });
+
+            if (!cafeExist) {
+                return res.status(400).send({
+                    message: "Cafe not found!",
+                    success: false
+                });
+            };
+
+            res.status(200).send({
+                message: "Cafe fetched successfully!",
+                result: cafeExist,
+                success: true
+            });
+
+        } catch (err: any) {
+            console.log(err);
+            return res.status(500).send({
+                message: err.message ? `Internal server error: ${err.message}` : "Internal server error.",
+                success: false
+            });
+        };
+    };
 };
 
 export default CafeController;

@@ -9,5 +9,6 @@ const cafeController = new CafeController();
 cafeRouter.post("/create/:userId", schemaValidateMiddleware(cafeSchema), cafeController.createCafeByUserId);
 cafeRouter.get("/all/:isActive", cafeController.getAllCafeByStatus);
 cafeRouter.get("/:cafeId", cafeController.getCafeByCafeId);
+cafeRouter.get("/username/:username", cafeController.getCafeByUsername);
 
 export default cafeRouter;  
