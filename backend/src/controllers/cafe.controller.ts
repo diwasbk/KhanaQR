@@ -193,6 +193,55 @@ class CafeController {
             });
         };
     };
+
+    // Activate or Deactivate Cafe By Cafe ID
+    activateOrdeactivateCafeByCafeId = async (req: Request, res: Response) => {
+        try {
+            const cafeId = req.params.cafeId;
+
+            const cafeExist = await CafeModel.findOne({ _id: cafeId });
+
+            if (!cafeExist) {
+                return res.status(404).send({
+                    message: "Cafe not found!",
+                    success: false
+                });
+            };
+
+            let message: string;
+            let isActive: boolean;
+
+            if (req.params.isActive == "true") {
+                message = "activated";
+                isActive = true;
+            } else if (req.params.isActive == "false") {
+                message = "deactivated";
+                isActive = false;
+            } else {
+                return res.status(400).send({
+                    message: "Invalid value! Use true or false.",
+                    success: false
+                });
+            };
+
+            await CafeModel.findOneAndUpdate(
+                { _id: cafeId },
+                { $set: { isActive: isActive } }
+            );
+
+            res.status(200).send({
+                message: `Cafe ${message} successfully!`,
+                success: true
+            });
+
+        } catch (err: any) {
+            console.log(err);
+            return res.status(500).send({
+                message: err.message ? `Internal server error: ${err.message}` : "Internal server error.",
+                success: false
+            });
+        };
+    };
 };
 
 export default CafeController;
