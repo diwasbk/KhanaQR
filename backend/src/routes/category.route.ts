@@ -10,5 +10,6 @@ categoryRouter.post("/create", schemaValidateMiddleware(categorySchema), categor
 categoryRouter.get("/all/:isActive", categoryController.getAllCategoryByStatus);
 categoryRouter.put("/update/:categoryId", schemaValidateMiddleware(categorySchema.partial()), categoryController.updateCategoryByCategoryId);
 categoryRouter.patch("/activate-deactivate/:categoryId/:isActive", categoryController.activateOrdeactivateCategoryByCategoryId);
+categoryRouter.delete("/delete/:categoryId", categoryController.deleteCategoryByCategoryId);
 
 export default categoryRouter;

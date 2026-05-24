@@ -167,6 +167,41 @@ class CategoryController {
             });
         };
     };
+
+    // Delete Category By Category ID
+    deleteCategoryByCategoryId = async (req: Request, res: Response) => {
+        try {
+            const categoryId = req.params.categoryId;
+
+            const categoryExist = await CategoryModel.findOne({ _id: categoryId });
+
+            if (!categoryExist) {
+                return res.status(400).send({
+                    message: "Category not found!",
+                    success: false
+                });
+            };
+
+            await CategoryModel.findOneAndDelete({ _id: categoryId });
+
+            // decrement cafe totalCategory when applicable
+            if (categoryExist.cafeId) {
+                await CafeModel.findOneAndUpdate({ _id: categoryExist.cafeId }, { $inc: { totalCategory: -1 } });
+            };
+
+            res.status(200).send({
+                message: "Category deleted successfully!",
+                success: true
+            });
+
+        } catch (err: any) {
+            console.log(err);
+            return res.status(500).send({
+                message: err.message ? `Internal server error: ${err.message}` : "Internal server error.",
+                success: false
+            });
+        };
+    };
 };
 
 export default CategoryController;
