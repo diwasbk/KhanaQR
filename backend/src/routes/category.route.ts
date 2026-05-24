@@ -8,5 +8,6 @@ const categoryController = new CategoryController();
 
 categoryRouter.post("/create", schemaValidateMiddleware(categorySchema), categoryController.addNewCategory);
 categoryRouter.get("/all/:isActive", categoryController.getAllCategoryByStatus);
+categoryRouter.put("/update/:categoryId", schemaValidateMiddleware(categorySchema.partial()), categoryController.updateCategoryByCategoryId);
 
 export default categoryRouter;

@@ -81,6 +81,43 @@ class CategoryController {
             });
         };
     };
+
+    // Update Category By Category ID
+    updateCategoryByCategoryId = async (req: Request, res: Response) => {
+        try {
+            const categoryId = req.params.categoryId;
+
+            const categoryExist = await CategoryModel.findOne({ _id: categoryId });
+
+            if (!categoryExist) {
+                return res.status(400).send({
+                    message: "Category not found!",
+                    success: false
+                });
+            };
+
+            const { name, description } = req.body;
+
+            const result = await CategoryModel.findOneAndUpdate(
+                { _id: categoryId },
+                { $set: { name: name, description: description } },
+                { new: true }
+            );
+
+            return res.status(201).send({
+                message: "Category updated successfully!",
+                result: result,
+                success: true
+            });
+
+        } catch (err: any) {
+            console.log(err);
+            return res.status(500).send({
+                message: err.message ? `Internal server error: ${err.message}` : "Internal server error.",
+                success: false
+            });
+        };
+    };
 };
 
 export default CategoryController;
