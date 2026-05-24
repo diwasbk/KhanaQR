@@ -118,6 +118,55 @@ class CategoryController {
             });
         };
     };
+
+    // Activate or Deactivate Category By Category ID
+    activateOrdeactivateCategoryByCategoryId = async (req: Request, res: Response) => {
+        try {
+            const categoryId = req.params.categoryId;
+
+            const categoryExist = await CategoryModel.findOne({ _id: categoryId });
+
+            if (!categoryExist) {
+                return res.status(404).send({
+                    message: "Category not found!",
+                    success: false
+                });
+            };
+
+            let message: string;
+            let isActive: boolean;
+
+            if (req.params.isActive == "true") {
+                message = "activated";
+                isActive = true;
+            } else if (req.params.isActive == "false") {
+                message = "deactivated";
+                isActive = false;
+            } else {
+                return res.status(400).send({
+                    message: "Invalid value! Use true or false.",
+                    success: false
+                });
+            };
+
+            await CategoryModel.findOneAndUpdate(
+                { _id: categoryId },
+                { $set: { isActive: isActive } }
+            );
+
+            res.status(200).send({
+                message: `Category ${message} successfully!`,
+                success: true
+            });
+
+        } catch (err: any) {
+            console.log(err);
+            return res.status(500).send({
+                message: err.message ? `Internal server error: ${err.message}` : "Internal server error.",
+                success: false
+            });
+        };
+    };
 };
 
 export default CategoryController;
