@@ -7,5 +7,6 @@ const categoryRouter = express.Router();
 const categoryController = new CategoryController();
 
 categoryRouter.post("/create", schemaValidateMiddleware(categorySchema), categoryController.addNewCategory);
+categoryRouter.get("/all/:isActive", categoryController.getAllCategoryByStatus);
 
 export default categoryRouter;

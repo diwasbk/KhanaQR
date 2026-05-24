@@ -45,6 +45,42 @@ class CategoryController {
             });
         };
     };
+
+    // Get All Category by status
+    getAllCategoryByStatus = async (req: Request, res: Response) => {
+        try {
+            let message: string;
+            let isActive: boolean;
+
+            if (req.params.isActive == "true") {
+                message = "Activate";
+                isActive = true;
+            } else if (req.params.isActive == "false") {
+                message = "Deactive";
+                isActive = false;
+            } else {
+                return res.status(400).send({
+                    message: "Invalid value! Use true or false.",
+                    success: false
+                });
+            };
+
+            const result = await CategoryModel.find({ isActive: isActive });
+
+            res.status(200).send({
+                message: result.length ? `${message} category fetched successfully!` : "Category not found",
+                result: result,
+                success: true
+            });
+
+        } catch (err: any) {
+            console.log(err);
+            return res.status(500).send({
+                message: err.message ? `Internal server error: ${err.message}` : "Internal server error.",
+                success: false
+            });
+        };
+    };
 };
 
 export default CategoryController;
