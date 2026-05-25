@@ -1,4 +1,4 @@
-import mongoose, { Document, mongo, Schema, trusted } from "mongoose";
+import mongoose, { Document, Schema } from "mongoose";
 import { cafeType } from "../types/cafe.types";
 
 const cafeSchema: Schema = new mongoose.Schema<cafeType>({

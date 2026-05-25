@@ -8,7 +8,7 @@ class CafeController {
             const userId = req.params.userId;
 
             // Check user exists
-            const userExist = await UserModel.findById({ userId: userId });
+            const userExist = await UserModel.findById({ _id: userId });
 
             if (!userExist) {
                 return res.status(404).send({
