@@ -118,6 +118,55 @@ class ItemController {
             });
         }
     };
+
+    // Activate or Deactivate Item By Item ID
+    activateOrDeactivateItemByItemId = async (req: Request, res: Response) => {
+        try {
+            const itemId = req.params.itemId;
+
+            const itemExist = await ItemModel.findOne({ _id: itemId });
+
+            if (!itemExist) {
+                return res.status(404).send({
+                    message: "Item not found!",
+                    success: false
+                });
+            }
+
+            let message: string;
+            let isActive: boolean;
+
+            if (req.params.isActive == "true") {
+                message = "activated";
+                isActive = true;
+            } else if (req.params.isActive == "false") {
+                message = "deactivated";
+                isActive = false;
+            } else {
+                return res.status(400).send({
+                    message: "Invalid value! Use true or false.",
+                    success: false
+                });
+            }
+
+            await ItemModel.findOneAndUpdate(
+                { _id: itemId },
+                { $set: { isActive: isActive } }
+            );
+
+            res.status(200).send({
+                message: `Item ${message} successfully!`,
+                success: true
+            });
+
+        } catch (err: any) {
+            console.log(err);
+            return res.status(500).send({
+                message: err.message ? `Internal server error: ${err.message}` : "Internal server error.",
+                success: false
+            });
+        }
+    };
 };
 
 export default ItemController;
