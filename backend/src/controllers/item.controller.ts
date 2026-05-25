@@ -81,6 +81,43 @@ class ItemController {
             });
         }
     };
+
+    // Update Item By Item ID
+    updateItemByItemId = async (req: Request, res: Response) => {
+        try {
+            const itemId = req.params.itemId;
+
+            const itemExist = await ItemModel.findOne({ _id: itemId });
+
+            if (!itemExist) {
+                return res.status(400).send({
+                    message: "Item not found!",
+                    success: false
+                });
+            }
+
+            const { name,price, photoUrl } = req.body;
+
+            const result = await ItemModel.findOneAndUpdate(
+                { _id: itemId },
+                { $set: { name: name, price: price, photoUrl: photoUrl } },
+                { new: true }
+            );
+
+            return res.status(201).send({
+                message: "Item updated successfully!",
+                result: result,
+                success: true
+            });
+
+        } catch (err: any) {
+            console.log(err);
+            return res.status(500).send({
+                message: err.message ? `Internal server error: ${err.message}` : "Internal server error.",
+                success: false
+            });
+        }
+    };
 };
 
 export default ItemController;
