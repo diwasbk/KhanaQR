@@ -7,5 +7,6 @@ const itemRouter = express.Router();
 const itemController = new ItemController();
 
 itemRouter.post("/add/:categoryId", schemaValidateMiddleware(itemSchema), itemController.addNewItemByCategoryId);
+itemRouter.get("/all/:categoryId/:isActive", itemController.getAllItemByCategoryIdAndStatus);
 
 export default itemRouter;
