@@ -4,12 +4,13 @@ import { CafeModel } from "../models/cafe.model";
 
 class CategoryController {
     // Add New Category
-    addNewCategory = async (req: Request, res: Response) => {
+    addNewCategoryByCafeId = async (req: Request, res: Response) => {
         try {
-            const { cafeId, name, description } = req.body;
+            const cafeId = req.params.cafeId;
+            const { name, description } = req.body;
 
             // if cafeId provided, ensure cafe exists
-            const cafeExist = await CafeModel.findById({ _id: cafeId });
+            const cafeExist = await CafeModel.findOne({ _id: cafeId });
 
             if (!cafeExist) {
                 return res.status(404).send({
@@ -17,10 +18,10 @@ class CategoryController {
                     success: false
                 });
             };
-
+            
             // create category
             const result = await CategoryModel.create({
-                cafeId: cafeId,
+                cafeId: cafeId.toString(),
                 name: name,
                 description: description
             });
@@ -46,8 +47,8 @@ class CategoryController {
         };
     };
 
-    // Get All Category by status
-    getAllCategoryByStatus = async (req: Request, res: Response) => {
+    // Get All Category by Cafe ID and Status
+    getAllCategoryByCafeIdAndStatus = async (req: Request, res: Response) => {
         try {
             let message: string;
             let isActive: boolean;
@@ -65,7 +66,7 @@ class CategoryController {
                 });
             };
 
-            const result = await CategoryModel.find({ isActive: isActive });
+            const result = await CategoryModel.find({ cafeId: req.params.cafeId, isActive: isActive });
 
             res.status(200).send({
                 message: result.length ? `${message} category fetched successfully!` : "Category not found",
