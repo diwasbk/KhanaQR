@@ -10,5 +10,6 @@ itemRouter.post("/add/:categoryId", schemaValidateMiddleware(itemSchema), itemCo
 itemRouter.get("/all/:categoryId/:isActive", itemController.getAllItemByCategoryIdAndStatus);
 itemRouter.put("/update/:itemId", schemaValidateMiddleware(itemSchema.partial()), itemController.updateItemByItemId);
 itemRouter.patch("/activate-deactivate/:itemId/:isActive", itemController.activateOrDeactivateItemByItemId);
+itemRouter.delete("/delete/:itemId", itemController.deleteItemByItemId);
 
 export default itemRouter;

@@ -167,6 +167,41 @@ class ItemController {
             });
         }
     };
+
+    // Delete Item By Item ID
+    deleteItemByItemId = async (req: Request, res: Response) => {
+        try {
+            const itemId = req.params.itemId;
+
+            const itemExist = await ItemModel.findOne({ _id: itemId });
+
+            if (!itemExist) {
+                return res.status(400).send({
+                    message: "Item not found!",
+                    success: false
+                });
+            }
+
+            await ItemModel.findOneAndDelete({ _id: itemId });
+
+            // decrement category totalItems when applicable
+            if (itemExist.categoryId) {
+                await CategoryModel.findOneAndUpdate({ _id: itemExist.categoryId }, { $inc: { totalItems: -1 } });
+            }
+
+            res.status(200).send({
+                message: "Item deleted successfully!",
+                success: true
+            });
+
+        } catch (err: any) {
+            console.log(err);
+            return res.status(500).send({
+                message: err.message ? `Internal server error: ${err.message}` : "Internal server error.",
+                success: false
+            });
+        }
+    };
 };
 
 export default ItemController;
