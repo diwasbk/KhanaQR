@@ -46,3 +46,13 @@ export const loginSchema = z.object({
         .min(6, "Password must be at least 6 characters."),
 });
 export type loginType = z.infer<typeof loginSchema>;
+
+/* Change Password Schema */
+export const changePasswordSchema = z.object({
+    currentPassword: z.string("Current Password is required.").nonempty("Current Password is required."),
+    newPassword: z.string("New Password is required.").nonempty("New Password is required.").min(6, "Password must be at least 6 characters."),
+    confirmPassword: z.string("Confirm Password is required.").nonempty("Confirm Password is required."),
+}).refine((data) => data.newPassword === data.confirmPassword, {
+    message: "Passwords do not match.",
+    path: ["confirmPassword"]
+});
