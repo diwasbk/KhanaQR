@@ -33,3 +33,26 @@ export const signupSchema = z.object({
     path: ["confirmPassword"]
 });
 export type signupType = z.infer<typeof signupSchema>;
+
+// Login Schema
+export const loginSchema = z.object({
+    email: z
+        .string("Email is required.")
+        .nonempty("Email is required.")
+        .email({ message: "Invalid email." }),
+    password: z
+        .string("Password is required.")
+        .nonempty("Password is required.")
+        .min(6, "Password must be at least 6 characters."),
+});
+export type loginType = z.infer<typeof loginSchema>;
+
+/* Change Password Schema */
+export const changePasswordSchema = z.object({
+    currentPassword: z.string("Current Password is required.").nonempty("Current Password is required."),
+    newPassword: z.string("New Password is required.").nonempty("New Password is required.").min(6, "Password must be at least 6 characters."),
+    confirmPassword: z.string("Confirm Password is required.").nonempty("Confirm Password is required."),
+}).refine((data) => data.newPassword === data.confirmPassword, {
+    message: "Passwords do not match.",
+    path: ["confirmPassword"]
+});
